@@ -1,0 +1,82 @@
+body {
+  font-family: verdana,"ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Osaka,"ＭＳ Ｐゴシック","MS PGothic",Sans-Serif;
+}
+
+h1 a, #statuses .message p.id a {
+  color: #000;
+  text-decoration: none;
+}
+
+#status-update {
+  background: #e6e6fa;
+  padding: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+#status-update form label {
+  display: block;
+  font-size: 140%;
+  text-align: left;
+  font-family: 'Georgia', 'Serif';
+}
+#status-update form p {
+  margin: 5px 10px;
+  text-align: right;
+}
+#status-update form input[type=text] {
+  font-size: 140%;
+  width: 100%;
+}
+#status-update form input[type=submit] {
+  background-color: #b0c4de;
+  font-size: 120%;
+  padding: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+#statuses .message {
+  margin: 10px;
+  background: #90ee90;
+  padding: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+#statuses div.even {
+  background: #98fb98;
+}
+
+#statuses .message p.id {
+  margin: 5px;
+  float: left;
+  line-height: 1.5;
+}
+#statuses .message p.body {
+  margin: 5px;
+  float: left;
+  line-height: 1.5;
+  margin-left: 10px;
+}
+#statuses .message p.created {
+  clear: left;
+  text-align: right;
+  margin: 0 10px;
+  color: #555;
+  font-size: 80%;
+  font-family: 'Georgia', 'Serif';
+}
+
+#pager {
+  text-align: center;
+  margin: 10px;
+}
+#pager a, #pager strong {
+  margin: 2.5px;
+}
+
+#footer {
+  text-align: center;
+}

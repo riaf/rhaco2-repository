@@ -1,0 +1,10 @@
+<rt:extends href="statuses.html" />
+<rt:block name="main">
+<div id="statuses">
+  <div class="message">
+    <p class="id">{$object.id()}:</p>
+    <p class="body">{$t.html($object.body())}</p>
+    <p class="created">{$t.df($object.created())}</p>
+  </div>
+</div>
+</rt:block>

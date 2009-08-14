@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
+<head profile="http://purl.org/net/ns/metaprof">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="Oretter" />
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <title>Oretter</title>
+</head>
+<body>
+  <h1><a href="{$t.url()}">Oretter</a></h1>
+  
+<rt:block name="main">
+  <div id="status-update">
+    <form action="{$t.url('update')}" method="post">
+      <p>
+        <label for="body">What am I doing?</label>
+        <input type="text" size="100" maxlength="140" name="body" />
+      </p>
+      <p><input type="submit" value="update" /></p>
+    </form>
+  </div>
+  
+  <div id="statuses">
+    <rt:loop param="object_list" var="object" evenodd="evenodd">
+      <div class="message {$evenodd}">
+        <p class="id"><a href="{$t.url('status')}/{$object.id()}">{$object.id()}:</a></p>
+        <p class="body">{$t.html($object.body())}</p>
+        <p class="created">{$t.df($object.created())}</p>
+      </div>
+    </rt:loop>
+  </div>
+  
+  <div id="pager"><rt:pager /></div>
+</rt:block>
+
+  <div id="footer">
+    <address>Oretter sample application by <a href="http://riaf.jp">riaf.jp</a></address>
+  </div>
+</body>
+</html>
+<pre>
