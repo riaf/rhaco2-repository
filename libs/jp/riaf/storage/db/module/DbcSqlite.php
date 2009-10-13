@@ -26,7 +26,7 @@ class DbcSqlite extends DbcModule
             $vars,
             $autoid
         );
-	}
+    }
     public function create_table($name, array $columns){
         $sql = 'create table `'. $name. "`(\n  ";
         $columndef = array();
