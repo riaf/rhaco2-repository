@@ -28,29 +28,41 @@ class IrcClient extends Object
         while(true){
             if(!empty($this->send_stack)){
                 foreach($this->send_stack as $k => $data){
-                    $this->connection->send($data);
-                    unset($this->send_stack[$k]);
+                    try {
+                        $this->connection->send($data);
+                        unset($this->send_stack[$k]);
+                    } catch(Exception $e){
+                        // Exceptions::add($e);
+                    }
                 }
             }
             $results = $this->connection->receive();
             if(is_array($results)) foreach($results as $result){
+printf("received: %s\n", $result);
                 if($result{0} == ':'){
-                    if(preg_match('/^:.*?\!.*? (PRIVMSG|NOTICE) (#.*?) :(.+)/i', $result, $match)){
-                        $ret = array(
-                            'type' => strtoupper($match[1]),
-                            'channel' => $match[2],
-                            'msg' => $match[3],
-                        );
+                    if(preg_match('/^:(.*?)\!.*? (PRIVMSG|NOTICE) (#.*?) :(.+)/i', $result, $match)){
+                        switch(strtoupper($match[2])){
+                            case 'PRIVMSG':
+                                $this->__privmsg__($match[1], $match[3], $match[4]);
+                                break;
+                            case 'NOTICE':
+                                $this->__notice__($match[1], $match[3], $match[4]);
+                                break;
+                        }
+                        continue;
                     }
+                } else if(preg_match('/^PING :(.+?)/', $result, $match)){
+                    $this->__ping__($match[1]);
+                    continue;
                 }
             }
         }
     }
-    protected function privmsg(){
-        
+    protected function privmsg($destination, $msg){
+        $this->send_stack[] = sprintf('PRIVMSG %s :%s', $destination, $msg);
     }
-    protected function notice($channel, $msg){
-        
+    protected function notice($destination, $msg){
+        $this->send_stack[] = sprintf('NOTICE %s :%s', $destination, $msg);
     }
     protected function join($channel){
         
@@ -61,12 +73,11 @@ class IrcClient extends Object
     protected function __disconnected__(){
         // auto reconnect
     }
-    protected function __privmsg__(){
+    protected function __privmsg__($nick, $destination, $msg){
     }
-    protected function __notice__(){
-        
+    protected function __notice__($nick, $destination, $msg){
     }
-    protected function __ping__(){
-        // pong
+    protected function __ping__($msg){
+        $this->connection->send('PONG', ':'. $msg);
     }
 }
