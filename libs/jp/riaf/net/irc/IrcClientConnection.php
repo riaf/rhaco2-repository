@@ -1,4 +1,10 @@
 <?php
+/**
+ * IRC サーバーへの接続
+ *
+ * @author  Keisuke Sato <riaf@nequal.jp>
+ * @license New BSD License
+ */
 class IrcClientConnection extends Object
 {
     private $_socket_;
@@ -152,6 +158,9 @@ class IrcClientConnection extends Object
     const ERR_UMODEUNKNOWNFLAG = 501;
     const ERR_USERSDONTMATCH = 502;
     
+    /**
+     * 接続
+     */
     public function connect(){
         if(empty($this->server)){
             throw new IrcException('server address is required');
@@ -163,13 +172,16 @@ class IrcClientConnection extends Object
             throw new IrcException(sprintf('Cannot create socket[%d] %s',
                 $error_code, socket_strerror($error_code)));
         }
-        if(socket_connect($this->_socket_, $this->server, $this->port) === false){
+        if(@socket_connect($this->_socket_, $this->server, $this->port) === false){
             $error_code = socket_last_error($this->_socket_);
             throw new IrcException(sprintf('Connect error[%d] %s',
                 $error_code, socket_strerror($error_code)));
         }
     }
     
+    /**
+     * ログイン
+     */
     public function login(){
         if(empty($this->nick)){
             throw new IrcException('nick is required.');
@@ -190,6 +202,9 @@ class IrcClientConnection extends Object
         $this->send('USER', $this->username, $this->usermod, '*', $this->realname);
     }
     
+    /**
+     * データを送信
+     */
     public function send($data){
         $data = str_replace(array("\r\n", "\n"), '', implode(' ', func_get_args()));
         Log::debug(sprintf('Irc send: %s', $data));
@@ -200,13 +215,17 @@ class IrcClientConnection extends Object
         }
     }
     
+    /**
+     * データを受信
+     */
     public function receive(){
         $read = array($this->_socket_);
-        $changed_sockets = socket_select($read, $w = null, $e = null, 0, 20000);
-        if($changed_sockets !== 1){
-            return;
-        } else if($changed_sockets === false){
+        $w = $e = null;
+        $changed_sockets = socket_select($read, $w, $e, 0, 20000);
+        if($changed_sockets === false){
             throw new IrcException('warning: '. socket_strerror(socket_last_error()));
+        } else if($changed_sockets !== 1){
+            return;
         }
         $data = socket_read($this->_socket_, 10240);
         if(empty($data)){
@@ -214,12 +233,16 @@ class IrcClientConnection extends Object
         }
         $result = array();
         foreach(explode("\n", str_replace("\r", '', $data)) as $line){
-            // パースめんどくせえ！！
+            $line = trim($line);
+            if(empty($line)){
+                continue;
+            }
+            $result[] = $line;
         }
         return $result;
     }
     
-    protected function __end__(){
+    protected function __del__(){
         $this->send('QUIT');
         @socket_shutdown($this->_socket_);
         @socket_close($this->_socket_);

@@ -1,6 +1,14 @@
 <?php
-// import('jp.riaf.net.irc.IrcClientConnection');
-// import('jp.riaf.net.irc.IrcException');
+/**
+ * IRC Client
+ * IrcClient を継承して， __anymethod__ メソッドを実装する用
+ *
+ * @author  Keisuke Sato <riaf@nequal.jp>
+ * @license New BSD License
+ */
+
+import('jp.riaf.net.irc.IrcClientConnection');
+import('jp.riaf.net.irc.IrcException');
 
 class IrcClient extends Object
 {
@@ -8,7 +16,7 @@ class IrcClient extends Object
     protected $channels = array();
     protected $send_stack = array();
     
-    public function __new__($dict){
+    protected function __new__($dict){
         $connection = new IrcClientConnection($dict);
         $connection->connect();
         $connection->login();
@@ -26,7 +34,15 @@ class IrcClient extends Object
             }
             $results = $this->connection->receive();
             if(is_array($results)) foreach($results as $result){
-                // switch して，各アクションを呼ぶ
+                if($result{0} == ':'){
+                    if(preg_match('/^:.*?\!.*? (PRIVMSG|NOTICE) (#.*?) :(.+)/i', $result, $match)){
+                        $ret = array(
+                            'type' => strtoupper($match[1]),
+                            'channel' => $match[2],
+                            'msg' => $match[3],
+                        );
+                    }
+                }
             }
         }
     }
