@@ -64,8 +64,9 @@ printf("received: %s\n", $result);
     protected function notice($destination, $msg){
         $this->send_stack[] = sprintf('NOTICE %s :%s', $destination, $msg);
     }
-    protected function join($channel){
-        
+    protected function join($channels){
+        if(is_array($channels)) $channels = implode(',', $channels);
+        $this->connection->send('JOIN', $channels);
     }
     
     protected function __connected__(){
