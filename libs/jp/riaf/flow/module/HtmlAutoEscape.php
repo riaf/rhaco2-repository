@@ -25,6 +25,5 @@ class HtmlAutoEscape
             $src = str_replace($match, sprintf('{$t.htmlencode(%s)}', $matches[1][$k]), $src);
             $hist[] = $match;
         }
-        $src = preg_replace('/{\$t\.noop\((\\$[\$\w][^\t]*?)\)}/', '{\\1}', $src);
     }
 }
