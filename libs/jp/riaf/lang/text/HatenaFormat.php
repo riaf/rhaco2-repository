@@ -1,7 +1,7 @@
 <?php
 import('org.yabeken.service.Pea');
 pear('openpear.org/PEG');
-pear('openpear.org/HatenaSyntax-beta');
+pear('openpear.org/HatenaSyntax');
 
 class HatenaFormat
 {
@@ -50,6 +50,6 @@ class HatenaFormat
      */
     static public function __setup_install_hatenasyntax__(){
         pear_install('openpear.org/PEG');
-        pear_install('openpear.org/HatenaSyntax-beta');
+        pear_install('openpear.org/HatenaSyntax');
     }
 }
