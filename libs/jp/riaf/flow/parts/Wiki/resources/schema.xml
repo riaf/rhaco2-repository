@@ -1,0 +1,9 @@
+<database>
+    <table name="wiki_page">
+        <column name="id" type="serial" />
+        <column name="name" require="true" />
+        <column name="body" type="text" require="true" />
+        <column name="version" type="number" require="true" />
+        <column name="created" type="timestamp" />
+    </table>
+</database>

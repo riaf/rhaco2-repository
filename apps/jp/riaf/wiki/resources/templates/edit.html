@@ -1,0 +1,9 @@
+<rt:extends href="page.html"/ >
+<rt:block name="main">
+    <rt:invalid />
+    <form action="{$t.current_url()}" method="post" rt:ref="true">
+        <input name="name" type="hidden" />
+        <p><textarea name="body"></textarea></p>
+        <p><button type="submit">Update</button></p>
+    </form>
+</rt:block>

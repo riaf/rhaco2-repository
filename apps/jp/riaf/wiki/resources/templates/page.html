@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>{$page.name()}</title>
+    <link rel="stylesheet" href="styles.css" type="text/css" charset="utf-8" />
+</head>
+<body>
+    <hgroup>
+        <h1><a href="{$t.url($page.name())}">{$page.name()}</a></h1>
+        <p>{$t.url($page.name())}</p>
+        <p><a href="{$t.url()}/e/{$page.name()}" class="edit">edit</a></p>
+    </hgroup>
+    <section><rt:block name="main">
+        {$t.noop($page.fm_body())}
+    </rt:block></section>
+    <footer>
+        <p>Powered by <a href="http://github.com/riaf/rhaco_wiki">rhaco wiki</a></p>
+    </footer>
+</body>
+</html>

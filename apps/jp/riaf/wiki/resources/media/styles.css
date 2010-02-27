@@ -1,0 +1,46 @@
+body {
+  background: #fff;
+  color: #333;
+}
+hgroup {
+  border-bottom: 1px dotted #ccc;
+}
+hgroup h1 {
+  border-left: .5em solid #228b22;
+  border-bottom: 1px solid #228b22;
+  margin-bottom: .1em;
+  padding-left: .5em;
+}
+hgroup p {
+  margin: 0;
+  font-size: 90%;
+  text-align: right;
+}
+
+section {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+}
+section textarea {
+  width: 95%;
+  height: 30em;
+  font-size: 100%;
+}
+section button {
+  padding: .2em 2em;
+  border: 1px solid #228b22;
+  border-radius: 5px;
+  background: #98fb98;
+  font-size: 100%;
+}
+
+footer {
+  background: #98fb98;
+  border-radius: 5px;
+  margin: .5em 0;
+  padding: 5px;
+}
+footer p {
+  margin: 0 .5em;
+}
