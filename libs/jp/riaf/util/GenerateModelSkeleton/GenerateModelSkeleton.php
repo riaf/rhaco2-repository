@@ -4,7 +4,12 @@ module('model.ModelProperty');
 
 class GenerateModelSkeleton extends Flow
 {
-    static private $anons = array('type', 'required', 'size', 'max', 'min', 'primary');
+    static private $anons = array('type', 'require', 'size', 'max', 'min', 'primary', 'unique');
+    static private $defaults = array(
+        'type' => 'string',
+        'require' => 'false',
+        'primary' => 'false',
+    );
 
     /**
      * 既存のDBからモデルファイルを自動生成する
@@ -25,6 +30,7 @@ class GenerateModelSkeleton extends Flow
                 $property->name($prop_name);
                 foreach (self::$anons as $a) {
                     $anon = $dao->a($prop_name, $a);
+                    if (isset(self::$defaults[$prop_name]) && self::$defaults[$prop_name] == $anon) continue;
                     if (!is_null($anon)) $property->annotation($a, $anon);
                 }
                 $properties[] = $property;
@@ -35,7 +41,7 @@ class GenerateModelSkeleton extends Flow
             $template->vars('class_name', $class_name);
             $filename = File::path($model_path, $class_name. '.php');
             $src = "<?php\n". $template->read(module_templates('model.php'));
-            File:write($filename, $src);
+            File::write($filename, $src);
 
             // unset
             $dao = $template = $properties = $property = null;
