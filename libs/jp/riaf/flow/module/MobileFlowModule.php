@@ -1,5 +1,5 @@
 <?php
-import('Mobile');
+import('jp.riaf.net.agent.Mobile');
 
 class MobileFlowModule
 {
