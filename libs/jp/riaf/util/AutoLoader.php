@@ -4,6 +4,7 @@
  *
  * @author  riaf <ksato@otobank.co.jp>
  * @license New BSD License
+ * @info    http://github.com/riaf/rhaco2-repository/wiki/libs-util-AutoLoader
  **/
 class AutoLoader
 {
