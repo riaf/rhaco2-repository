@@ -7,6 +7,9 @@ class MobileTemplateModule
         if (strpos($src, 'm:agent') !== false) {
             $this->m_agent($src, $template);
         }
+        if (strpos($src, 'm:mobile') !== false) {
+            $this->m_mobile($src, $template);
+        }
     }
     private function m_agent(&$src, Template $template) {
         while (Tag::setof($tag, $src, 'm:agent')) {
@@ -16,6 +19,16 @@ class MobileTemplateModule
                 || ($agent == 'au' && Mobile::is_au())
                 || ($agent == 'softbank' && Mobile::is_softbank())
             ) {
+                $src = str_replace($tag->plain(), $tag->value(), $src);
+            } else {
+                $src = str_replace($tag->plain(), '', $src);
+            }
+        }
+        $src = $template->parse_vars($src);
+    }
+    private function m_mobile(&$src, Template $template) {
+        while (Tag::setof($tag, $src, 'm:mobile')) {
+            if (Mobile::is_mobile()) {
                 $src = str_replace($tag->plain(), $tag->value(), $src);
             } else {
                 $src = str_replace($tag->plain(), '', $src);
