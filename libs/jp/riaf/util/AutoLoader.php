@@ -58,7 +58,6 @@ class AutoLoader
             $classes = $modules + $classes;
             Store::set($store_key, $classes);
         }
-        var_dump($classes);exit;
         self::$classes = $classes;
     }
 
