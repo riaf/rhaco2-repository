@@ -40,7 +40,7 @@ class AutoLoader
             foreach ($itr as $elem) {
                 if ($elem->isFile() && preg_match($pattern, $elem->getPathname(), $match)) {
                     $class_name = $elem->getBasename('.php');
-                    if ($class_name = basename($elem->getPath())) {
+                    if ($class_name == basename($elem->getPath())) {
                         $classes[$class_name] = str_replace('/', '.', $elem->getPath());
                     } else if ($class_name !== __CLASS__) {
                         $classes[$class_name] = str_replace('/', '.', $match[1]);
