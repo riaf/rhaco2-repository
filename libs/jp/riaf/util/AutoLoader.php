@@ -34,6 +34,7 @@ class AutoLoader
             $classes = Store::get($store_key);
         } else {
             $classes = array();
+            $modules = array();
             $dir = path('libs');
             $itr = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
             $pattern = '/^'. preg_quote($dir, '/'). '\/(.+?)\.php$/';
@@ -41,14 +42,23 @@ class AutoLoader
                 if ($elem->isFile() && preg_match($pattern, $elem->getPathname(), $match)) {
                     $class_name = $elem->getBasename('.php');
                     if ($class_name == basename($elem->getPath())) {
-                        $classes[$class_name] = str_replace('/', '.', $elem->getPath());
+                        $modules[$class_name] = str_replace('/', '.', substr($elem->getPath(), strlen($dir) + 1));
                     } else if ($class_name !== __CLASS__) {
                         $classes[$class_name] = str_replace('/', '.', $match[1]);
                     }
                 }
             }
+            foreach ($modules as $module_name => $module_path) {
+                foreach ($classes as $class_name => $class_path) {
+                    if (strpos($class_path, $module_path) === 0) {
+                        unset($classes[$class_name]);
+                    }
+                }
+            }
+            $classes = $modules + $classes;
             Store::set($store_key, $classes);
         }
+        var_dump($classes);exit;
         self::$classes = $classes;
     }
 
